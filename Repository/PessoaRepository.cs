@@ -93,18 +93,20 @@ namespace GerenciamentoPessoa.Repository {
                 SqlDataReader dr = command.ExecuteReader();
 
                 while (dr.Read()) {
-                    result.Add(new Pessoa() {
+                    Pessoa pessoa = new Pessoa() {
                         Id = dr.GetInt32("ID"),
                         Nome = dr.GetString("NOME"),
                         Sobrenome = dr.GetString("SOBRENOME"),
                         DataNascimento = dr.GetDateTime("DATANASCIMENTO")
-                    });
+                    };
+                    pessoa.DiasRestantes = pessoa.ProximoAniversario();
+                    result.Add(pessoa);
                 }
 
                 connection.Close();
             }
 
-            return result;
+            return result.OrderBy(pessoa => pessoa.DiasRestantes).ToList();
         }
 
         public Pessoa GetPessoaById(int id) {

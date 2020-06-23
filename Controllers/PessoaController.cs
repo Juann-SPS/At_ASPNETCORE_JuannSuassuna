@@ -16,14 +16,20 @@ namespace GerenciamentoPessoa.Controllers {
             this.PessoaRepository = pessoaRepository;
         }
 
-        // GET: PessoaController
+        [Route("Pessoa/NivDia")]
+        public ActionResult NivDia() {
+            DateTime DiaHj = DateTime.Today;
+            var pessoa = PessoaRepository.GetAll().Where(pessoa => pessoa.DataNascimento.Day.Equals(DiaHj.Day) && pessoa.DataNascimento.Month.Equals(DiaHj.Month));
+
+            return View(pessoa);
+        }
+
         public ActionResult Index() {
             var model = this.PessoaRepository.GetAll();
 
             return View(model);
         }
 
-        // GET: PessoaController/Details/5
         public ActionResult Details(int id) {
             var model = this.PessoaRepository.GetPessoaById(id);
             return View(model);
@@ -36,12 +42,10 @@ namespace GerenciamentoPessoa.Controllers {
             return View("Index", model);
         }
 
-        // GET: PessoaController/Create
         public ActionResult Create() {
             return View();
         }
 
-        // POST: PessoaController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Pessoa pessoa) {
@@ -53,7 +57,6 @@ namespace GerenciamentoPessoa.Controllers {
             }
             catch {
                 return View();
-
             }
         }
 
@@ -63,7 +66,6 @@ namespace GerenciamentoPessoa.Controllers {
             return View(model);
         }
 
-        // POST: PessoaController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Pessoa model) {
@@ -78,13 +80,11 @@ namespace GerenciamentoPessoa.Controllers {
             }
         }
 
-        // GET: PessoaController/Delete/5
         public ActionResult Delete(int id) {
             var model = this.PessoaRepository.GetPessoaById(id);
             return View(model);
         }
 
-        // POST: PessoaController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Pessoa model) {
