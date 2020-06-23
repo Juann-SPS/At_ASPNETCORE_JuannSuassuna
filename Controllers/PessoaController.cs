@@ -53,6 +53,7 @@ namespace GerenciamentoPessoa.Controllers {
             }
             catch {
                 return View();
+
             }
         }
 
